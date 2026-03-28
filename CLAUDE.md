@@ -1,5 +1,9 @@
 # neuralnet — Neural Network Library
 
+- **GitHub:** [wldarden/neuralnet](https://github.com/wldarden/neuralnet)
+- **Dependencies:** [evolve](https://github.com/wldarden/evolve) (expected at `../evolve/`)
+- **Used by:** NeuroFlyer, AntSim, EcoSim
+
 Shared library providing neural network types for neuroevolution projects. Supports two first-class network types with different trade-offs. Also provides neural-specific NEAT integration types (`NeuralNodeProps`, `NeuralGenome`, `NeuralIndividual`) and a `NeatPolicy` implementation for use with `evolve::NeatPopulation<NeuralNodeProps>`.
 
 ## Network Types
