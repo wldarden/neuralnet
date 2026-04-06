@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <span>
+#include <string>
 #include <vector>
 
 namespace neuralnet {
@@ -20,6 +21,12 @@ struct LayerDef {
 struct NetworkTopology {
     std::size_t input_size;
     std::vector<LayerDef> layers;
+
+    // Optional: named input/output nodes for identity-based matching.
+    // When non-empty, size must equal input_size / last layer output_size.
+    // When empty, nodes are positional (legacy behavior).
+    std::vector<std::string> input_ids;
+    std::vector<std::string> output_ids;
 };
 
 /// A feedforward neural network: ordered sequence of dense layers.
@@ -49,6 +56,9 @@ public:
     [[nodiscard]] std::size_t output_size() const noexcept;
     [[nodiscard]] std::size_t total_weights() const noexcept;
     [[nodiscard]] const NetworkTopology& topology() const noexcept;
+
+    [[nodiscard]] const std::vector<std::string>& input_ids() const noexcept;
+    [[nodiscard]] const std::vector<std::string>& output_ids() const noexcept;
 
 private:
     NetworkTopology topology_;

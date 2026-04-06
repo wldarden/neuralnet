@@ -107,3 +107,49 @@ TEST(NetworkTest, GetActivationsPerLayer) {
     // Layer 1: sigmoid(5*1 + 0*1 + 0) = sigmoid(5) ≈ 0.9933
     EXPECT_NEAR(all_activations[1][0], 0.9933f, 0.001f);
 }
+
+TEST(NetworkTest, TopologyWithIdsConstructs) {
+    nn::NetworkTopology topo;
+    topo.input_size = 3;
+    topo.input_ids = {"sensor_0", "heading", "speed"};
+    topo.layers = {{.output_size = 2, .activation = nn::Activation::ReLU}};
+    topo.output_ids = {"left", "right"};
+
+    std::vector<float> weights(3 * 2 + 2, 0.1f);
+    auto net = nn::Network(topo, weights);
+
+    EXPECT_EQ(net.input_ids().size(), 3u);
+    EXPECT_EQ(net.input_ids()[0], "sensor_0");
+    EXPECT_EQ(net.input_ids()[1], "heading");
+    EXPECT_EQ(net.input_ids()[2], "speed");
+    EXPECT_EQ(net.output_ids().size(), 2u);
+    EXPECT_EQ(net.output_ids()[0], "left");
+    EXPECT_EQ(net.output_ids()[1], "right");
+}
+
+TEST(NetworkTest, TopologyWithoutIdsReturnsEmpty) {
+    nn::NetworkTopology topo;
+    topo.input_size = 2;
+    topo.layers = {{.output_size = 1, .activation = nn::Activation::ReLU}};
+
+    std::vector<float> weights(2 * 1 + 1, 0.0f);
+    auto net = nn::Network(topo, weights);
+
+    EXPECT_TRUE(net.input_ids().empty());
+    EXPECT_TRUE(net.output_ids().empty());
+}
+
+TEST(NetworkTest, ForwardPassUnchangedWithIds) {
+    nn::NetworkTopology topo;
+    topo.input_size = 2;
+    topo.input_ids = {"a", "b"};
+    topo.layers = {{.output_size = 1, .activation = nn::Activation::ReLU}};
+    topo.output_ids = {"out"};
+
+    std::vector<float> weights = {1.0f, 1.0f, 0.0f};
+    auto net = nn::Network(topo, weights);
+
+    auto output = net.forward({3.0f, 4.0f});
+    ASSERT_EQ(output.size(), 1u);
+    EXPECT_FLOAT_EQ(output[0], 7.0f);
+}

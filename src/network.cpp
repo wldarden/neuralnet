@@ -101,4 +101,12 @@ const NetworkTopology& Network::topology() const noexcept {
     return topology_;
 }
 
+const std::vector<std::string>& Network::input_ids() const noexcept {
+    return topology_.input_ids;
+}
+
+const std::vector<std::string>& Network::output_ids() const noexcept {
+    return topology_.output_ids;
+}
+
 } // namespace neuralnet
