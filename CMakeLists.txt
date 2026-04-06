@@ -11,6 +11,7 @@ add_library(neuralnet STATIC
     src/activation.cpp
     src/layer.cpp
     src/network.cpp
+    src/adapt.cpp
     src/serialization.cpp
     src/graph_network.cpp
     src/neural_neat_policy.cpp
