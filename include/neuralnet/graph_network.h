@@ -19,6 +19,7 @@ public:
     void reset_state();
 
     [[nodiscard]] std::span<const float> get_node_states() const noexcept;
+    [[nodiscard]] std::span<const float> get_node_outputs() const noexcept;
     void set_node_states(std::span<const float> states);
     [[nodiscard]] const NeuralGenome& genome() const noexcept;
 

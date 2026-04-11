@@ -172,6 +172,7 @@ std::size_t GraphNetwork::output_size() const noexcept { return num_outputs_; }
 std::size_t GraphNetwork::num_nodes() const noexcept { return genome_.nodes.size(); }
 std::size_t GraphNetwork::num_connections() const noexcept { return genome_.connections.size(); }
 std::span<const float> GraphNetwork::get_node_states() const noexcept { return node_states_; }
+std::span<const float> GraphNetwork::get_node_outputs() const noexcept { return node_outputs_; }
 
 void GraphNetwork::reset_state() {
     std::fill(node_states_.begin(), node_states_.end(), 0.0f);
